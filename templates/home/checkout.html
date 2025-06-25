@@ -1,0 +1,183 @@
+{# templates/home/checkout.html #}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout</title>
+
+  {#— your existing global CSS —#}
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <style>
+    /* any page-specific overrides */
+    .checkout-container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      font-family: "Segoe UI", sans-serif;
+    }
+    .btn-submit {
+      background: #ed563b;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+    }
+    .btn-submit:hover { opacity: 0.9; }
+
+    .checkout-container h2 {
+    margin-bottom: 30px;
+  }
+  </style>
+</head>
+<body>
+
+  {# — NAVBAR from your repo’s templates/include/navbar.html — #}
+  <!-- Header Section Begin -->
+  <header class="header">
+      <div class="header__top">
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-6 col-md-7">
+                      <div class="header__top__left">
+                          <p>Free shipping, 30-day return or refund guarantee.</p>
+                      </div>
+                  </div>
+                  <div class="col-lg-6 col-md-5">
+                      <div class="header__top__right">
+                          <div class="header__top__links">
+                              {% if request.user.is_authenticated and not request.user.is_staff %}
+                              <a href="{% url 'logout' %}">Logout</a><span>|</span>
+                              <a href="{% url 'profile' %}">My Account</a>
+                              {% else %}
+                              <a href="{% url 'login' %}">Sign in</a><span>|</span>
+                              <a href="{% url 'register' %}">Sign up</a>
+                              {% endif %}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-3 col-md-3">
+                  <div class="header__logo">
+                      <a href="{% url 'home' %}">
+                        <img src="{{ site_data.logo.url }}" alt="logo">
+                      </a>
+                  </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                  <nav class="header__menu mobile-menu">
+                      <ul>
+                          <li {% if request.path == "/" %}class="active"{% endif %}>
+                            <a href="{% url 'home' %}">Home</a>
+                          </li>
+                          <li {% if request.path == "/shop/" %}class="active"{% endif %}>
+                            <a href="{% url 'shop' %}">Shop</a>
+                          </li>
+                          <li {% if request.path == "/about/" %}class="active"{% endif %}>
+                            <a href="{% url 'about' %}">About</a>
+                          </li>
+                          <li {% if request.path == "/contact/" %}class="active"{% endif %}>
+                            <a href="{% url 'contact' %}">Contacts</a>
+                          </li>
+                      </ul>
+                  </nav>
+              </div>
+              <div class="col-lg-3 col-md-3">
+                  <div class="header__nav__option">
+                      <a href="{% url 'cart' %}">
+                        <img src="{% static 'img/icon/cart.png' %}" alt="cart">
+                        <span>{{ cart_count }}</span>
+                      </a>
+                      <div class="price">${{ cart_total }}</div>
+                  </div>
+              </div>
+          </div>
+          <div class="canvas__open"><i class="fa fa-bars"></i></div>
+      </div>
+  </header>
+  <!-- Header Section End -->
+
+  <div class="checkout-container">
+    <h2> <stong> Checkout </strong> </h2>
+
+    <div class="cart-summary">
+      <h4> Your Cart </h4>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th class="text-center">Qty</th>
+            <th class="text-center">Rate</th>
+            <th class="text-center">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cp in cart_products %}
+          <tr>
+            <td>{{ cp.product.title }}</td>
+            <td class="text-center">{{ cp.quantity }}</td>
+            <td class="text-center">${{ cp.rate }}</td>
+            <td class="text-center">${{ cp.subtotal }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="text-right"><strong>Total:</strong></td>
+            <td class="text-center"><strong>${{ total }}</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <h2>Shipping & Billing Details</h2>
+
+      <div class="form-group">
+        <label for="shipping_address">Shipping Address</label>
+        <textarea id="shipping_address" name="shipping_address" class="form-control" rows="2" required>{{ customer_address.shipping_address }}</textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="billing_address">Billing Address</label>
+        <textarea id="billing_address" name="billing_address" class="form-control" rows="2" required>{{ customer_address.billing_address }}</textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" class="form-control" required value="{{ customer_address.city }}">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="state">State</label>
+          <input type="text" id="state" name="state" class="form-control" required value="{{ customer_address.state }}">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="postal_code">Postal Code</label>
+          <input type="text" id="postal_code" name="postal_code" class="form-control" required value="{{ customer_address.postal_code }}">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="country">Country</label>
+        <input type="text" id="country" name="country" class="form-control" required value="{{ customer_address.country }}">
+      </div>
+
+      <div class="form-group">
+        <label for="mobile">Mobile Number</label>
+        <input type="text" id="mobile" name="mobile" class="form-control" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-submit">Place Order</button>
+    </form>
+  </div>
+</body>
+</html>

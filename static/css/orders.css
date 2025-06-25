@@ -1,0 +1,87 @@
+/* static/css/orders.css */
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.order-detail-container {
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.order-detail-header {
+  background: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+.order-detail-header h1 {
+  margin: 0;
+  color: #2c3e50;
+}
+.order-detail-header .order-meta {
+  margin-top: 8px;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.order-shipping,
+.order-items {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 30px;
+}
+.order-shipping h2,
+.order-items h2 {
+  margin-top: 0;
+  border-bottom: 2px solid #2980b9;
+  padding-bottom: 6px;
+  color: #2980b9;
+}
+
+.order-shipping ul {
+  list-style: none;
+  padding: 0;
+}
+.order-shipping li {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.order-items table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.order-items th,
+.order-items td {
+  border: 1px solid #ddd;
+  padding: 12px;
+}
+.order-items th {
+  background-color: #3498db;
+  color: white;
+  text-align: left;
+}
+.order-items td.center {
+  text-align: center;
+}
+.order-items td.right {
+  text-align: right;
+}
+.order-items tfoot td {
+  border-top: 2px solid #ccc;
+  padding-top: 15px;
+}
+
+.no-items {
+  font-style: italic;
+  color: #888;
+}

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 30px;
+    }
+
+    h2 {
+      color: #2c3e50;
+    }
+
+    section {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    h3 {
+      border-bottom: 2px solid #2980b9;
+      padding-bottom: 5px;
+      color: #2980b9;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    strong {
+      color: #34495e;
+      margin-right: 5px;
+    }
+
+    img {
+      max-width: 150px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #3498db;
+      color: white;
+      padding: 10px;
+    }
+
+    td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    p {
+      font-style: italic;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Hello, {{ user.first_name }} {{ user.last_name }}</h2>
+
+  <section>
+    <h3>Account Details</h3>
+    <ul>
+      <li><strong>Username:</strong> {{ user.username }}</li>
+      <li><strong>Email:</strong> {{ user.email }}</li>
+      <li><strong>Date Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</li>
+      <li><strong>Last Login:</strong>
+        {% if user.last_login %}
+          {{ user.last_login|date:"F j, Y, g:i A" }}
+        {% else %}
+          — never
+        {% endif %}
+      </li>
+      <li><strong>Mobile Number:</strong> {{ customer.mobile_no }}</li>
+      <li><strong>Email Verified:</strong>
+        {% if customer.is_email_verfiled %}Yes{% else %}No{% endif %}
+      </li>
+      <li><strong>Active:</strong>
+        {% if customer.is_active %}Yes{% else %}No{% endif %}
+      </li>
+      {% if customer.image %}
+        <li>
+          <strong>Profile Photo:</strong><br>
+          <img src="{{ customer.image.url }}" alt="Profile photo">
+        </li>
+      {% endif %}
+    </ul>
+  </section>
+
+  <section>
+    <h3>Your Orders</h3>
+    {% if orders %}
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Shipping Address</th>
+            <th>Mobile</th>
+            <th>Total</th>
+            <th>Placed</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ord in orders %}
+            <tr>
+              <td>
+                <a href="{% url 'order_detail' ord.id %}">{{ ord.id }}</a>
+              </td>
+              <td>{{ ord.shipping_address }}</td>
+              <td>{{ ord.mobile }}</td>
+              <td>{{ ord.total }}</td>
+              <td>{{ ord.created_at|timesince }} ago</td>
+              <td>{{ ord.order_status }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>You haven’t placed any orders yet.</p>
+    {% endif %}
+  </section>
+
+</body>
+</html>

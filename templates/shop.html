@@ -1,0 +1,294 @@
+{% extends 'layout/base.html' %}
+{% block mainbody %}
+{% load static %}
+<style>
+    .product__item {
+        border: solid 2px #80808029;
+        padding: 3px;
+    }
+</style>
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option" style="padding:20px 0px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text" style="display: inline-flex;">
+                    <h4>Shop</h4>
+                    <div class="breadcrumb__links" style="margin-left: 30px;">
+                        <a href="./index.html">Home</a>
+                        <span>Shop</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Shop Section Begin -->
+<section class="shop spad" style="padding-top:66px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="shop__sidebar">
+                    <div class="shop__sidebar__search">
+                        <form onSubmit="return searchprod()">
+                            <input type="text" id="serchtext" placeholder="Search...">
+                            <button id="searchproduct" type="submit"><span class="icon_search"></span></button>
+                        </form>
+                    </div>
+                    <div class="shop__sidebar__accordion">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseOne">Categories</a>
+                                </div>
+                                <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__categories">
+                                            <ul class="nice-scroll">
+                                                {% for catelist in category_list %}
+                                                <li><a
+                                                        href="{% url 'shop' %}?category={{catelist.slug}}">{{catelist.title}}</a>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseTwo">Brands</a>
+                                </div>
+                                <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__brand">
+                                            <ul>
+                                                {% for brand in brand_list %}
+                                                <li><a href="{% url 'shop' %}?brand={{brand.slug}}">{{brand.title}} </a>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
+                                </div>
+                                <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__price">
+                                            <ul>
+                                                <li><a href="{% url 'shop' %}?srate=0&erate=200">$ 0.00 - $ 200.00</a>
+                                                </li>
+                                                <li><a href="{% url 'shop' %}?srate=200&erate=500">$ 200.00 -
+                                                        $ 500.00</a></li>
+                                                <li><a href="{% url 'shop' %}?srate=500&erate=800">$ 500.00 -
+                                                        $ 800.00</a></li>
+                                                <li><a href="{% url 'shop' %}?srate=800&erate=1000">$ 800.00 -
+                                                        $ 1000.00</a></li>
+                                                <li><a href="{% url 'shop' %}?srate=1000&erate=2000">$ 1000.00 -
+                                                        $ 2000.00</a></li>
+                                                <li><a href="{% url 'shop' %}?srate=2000&erate=0">2000.00+</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseFive">Colors</a>
+                                </div>
+                                <div id="collapseFive" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__color">
+
+                                            {% for colorn in color_list %}
+
+                                            <a href="{% url 'shop' %}?color={{colorn.color_name}}">
+                                                <label class="c-1" for="sp-1"
+                                                    style="background-color:{{colorn.color_select}};">
+
+                                                    <input type="radio" id="sp-1" title="{{colorn.color_name}}"
+                                                        value="{{colorn.color_select}}">
+                                                </label>
+                                            </a>
+
+
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% comment %} <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseSix">Tags</a>
+                                </div>
+                                <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__tags">
+                                            <a href="#">Product</a>
+                                            <a href="#">Bags</a>
+                                            <a href="#">Shoes</a>
+                                            <a href="#">Fashio</a>
+                                            <a href="#">Clothing</a>
+                                            <a href="#">Hats</a>
+                                            <a href="#">Accessories</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="shop__product__option">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="shop__product__option__left">
+                                <p>Showing 1–
+                                    {% if product_list.count > 12 %}
+                                    12
+                                    {% else %}
+                                    {{product_list.count}}
+                                    {% endif %} of {{product_list.count}} results</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="shop__product__option__right">
+                                <p>Sort by Price:</p>
+                                <select id="sortproducts">
+                                    <option {% if request.GET.sort == 'l_h' %} selected {% endif %} value="l_h">
+                                        Low To High</option>
+                                    <option {% if request.GET.sort == 'h_l' %} selected {% endif %} value="h_l">
+                                        High To Low</option>
+                                    <option {% if request.GET.sort == 'a_z' %} selected {% endif %} value="a_z">A
+                                        to Z</option>
+                                    <option {% if request.GET.sort == 'z_a' %} selected {% endif %} value="z_a">Z
+                                        to A</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+
+                        {% for prod in product_list %}
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="product__item">
+                                <div class="product__item__pic set-bg"
+                                    data-setbg="{% get_media_prefix %}{{prod.product_images.first.image}}">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="product__item__text">
+
+                                            <h6><a class="btn btn-link"
+                                                    href="{% url 'shop_details' prod.slug %}">{{prod.title|truncatechars:18}}
+                                                </a></h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                            <h5>$ {{prod.selling_price}}</h5>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mt-3">
+                                        <button title="Add to cart" data-id="{{prod.id}}"
+                                            class="btn btn-primary addtocart">
+                                            <i class="fa fa-shopping-cart"></i>
+                                        </button>
+                                        <button title="Add to wishlist" class="btn btn-danger mt-1">
+                                            <i class="fa fa-heart"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="product__pagination">
+                            <a class="active" href="#">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                            <span>...</span>
+                            <a href="#">21</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shop Section End -->
+
+{% endblock mainbody %}
+
+{% block jsblock %}
+<script>
+    $("#searchproduct").click(function (e) {
+        e.preventDefault();
+        searchprod();
+    })
+
+    function searchprod() {
+        let serchtext = $("#serchtext").val()
+        url = `{% url 'shop' %}?q=${serchtext}`
+        window.location.replace(url)
+    }
+
+
+
+    $("#sortproducts").change(function (e) {
+        let selectedval = $(this).val()
+        let url = `{% url 'shop' %}?sort=${selectedval}`
+        window.location.replace(url)
+    })
+</script>
+
+<script>
+    $('.addtocart').click(function (e) {
+        e.preventDefault();
+        var csrf_token = $("input[name='csrfmiddlewaretoken']").val()
+        var catid = $(this).attr("data-id");
+        $.ajax({
+            type: "POST",
+            url: "{% url 'ajax' %}",
+            data: {
+                csrfmiddlewaretoken: csrf_token,
+                prod_id: catid
+            },
+            success: function (data) {
+                if (data.success == 1) {
+                    alert(data.msg)
+                } else {
+                    if (data.render == 1) {
+                        alert("Login Required .")
+                        let url = `{% url 'login' %}`;
+                        window.location.replace(url);
+                    } else {
+                        alert("Something Went Wrong .")
+                    }
+                }
+
+            }
+        })
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'layout/base.html' %}
+
+{% block mainbody %}
+
+<!-- Map Begin -->
+<div class="map">
+    <iframe
+        src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=india+(Your%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+        height="500" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+
+
+
+</div>
+<!-- Map End -->
+
+<!-- Contact Section Begin -->
+<section class="contact spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="contact__text">
+                    <div class="section-title">
+                        <span>Information</span>
+                        <h2>Contact Us</h2>
+                        <p>As you might expect of a company that began as a high-end interiors contractor, we pay
+                            strict attention.</p>
+                    </div>
+                    <ul>
+                        <li>
+                            <h4>India</h4>
+                            <p>123 E XYZ Square , India <br />+91 xxxxxxxxxx</p>
+                        </li>
+                        <li>
+                            <h4>France</h4>
+                            <p>321 E XYZ Square , India <br />+91 xxxxxxxxxx</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="contact__form">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            {% for fm in form %}
+                            <div {% if fm == form.message %} class="col-12" {% else %} class="col-lg-6" {% endif %}>
+
+                                <label>{{fm.label_tag}}</label>
+                                <div class="control">
+                                    {{fm}}
+                                    <span class="text-danger">{{fm.errors}}</span>
+                                </div>
+
+                            </div>
+                            {% endfor %}
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary " name="contactsave">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Contact Section End -->
+
+{% endblock mainbody %}
