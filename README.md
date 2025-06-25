@@ -34,11 +34,7 @@ A modern, modular e-commerce web application built with Django. E-Store provides
 - **Django**: 4.1  
 - **Database**: SQLite (default; easy to switch to PostgreSQL, MySQL, etc.)  
 - **Front-end**: HTML5, SCSS, vanilla JavaScript  
-- **Dependencies** (see `requirements.txt`):
-  - `Django==4.1.*`
-  - `Pillow` (for image handling)
-  - _(add others as needed)_
-
+- **Dependencies** (see `requirements.txt`)
 ---
 
 ## 🚀 Quick Start
@@ -123,6 +119,3 @@ estore/
 5. Open a Pull Request
 
 > Built with ❤️ and [Django](https://www.djangoproject.com/)
-
-```
-```
