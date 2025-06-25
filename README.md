@@ -44,10 +44,10 @@ A modern, modular e-commerce web application built with Django. E-Store provides
 ## 🚀 Quick Start
 
 1. **Clone the repo**  
-   ```bash
-   git clone https://github.com/amiit04/estore.git
-   cd estore
-````
+    ```bash
+    git clone https://github.com/amiit04/estore.git
+    cd estore
+    ```
 
 2. **Create & activate virtual environment**
 
