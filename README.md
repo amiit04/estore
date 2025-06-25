@@ -1,4 +1,3 @@
-````markdown
 # E-Store
 
 A modern, modular e-commerce web application built with Django. E-Store provides user authentication, product catalog, shopping cart, checkout, and a clean admin interface for managing products and site settings.
